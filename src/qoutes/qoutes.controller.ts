@@ -47,14 +47,26 @@ export class QoutesController {
   }
 
   // update a certain qoute
-  @Patch("/:id")
-  updateQouteById(@Param("id", ParseIntPipe) id: number) {
-    return "we need an api to update a qoute ";
+  @Patch("/qoute/:id")
+  async updateQouteById(@Param("id", ParseIntPipe) id: number, @Body() body: CreateQouteDto) {
+     const qoutes = await this.service.getQouteById(id);
+     if (!qoutes[0]) {
+       throw new NotFoundException("no qoute found in the given id");
+     } else {
+       return await this.service.updateQoute(id, {
+          id, ...body
+        })
+     }
   }
 
   // delete qoute by id
-  @Delete("/:id")
-  deleteQoute(@Param("id", ParseIntPipe) id: number) {
-    return "we have no api set up yet";
+  @Delete("/qoute/:id")
+ async  deleteQoute(@Param("id", ParseIntPipe) id: number) {
+     const qoutes = await this.service.getQouteById(id);
+     if (!qoutes[0]) {
+       throw new NotFoundException("no qoute found in the given id");
+     } else {
+       return await this.service.deleteQoute(id); 
+     }
   }
 }

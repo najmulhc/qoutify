@@ -24,4 +24,12 @@ export class QouteService {
   async getQouteById(id: number) {
     return await this.qotueRepo.getSingleQoute(id);
   }
+  
+  async updateQoute(id: number, qoute: { author: string, content: string, id:number }) { 
+    return await this.qotueRepo.editQoute(id, qoute)
+  }
+    
+  async deleteQoute(id: number) { 
+    return this.qotueRepo.deleteQoute(id); 
+  }
 }

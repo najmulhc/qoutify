@@ -20,9 +20,9 @@ export class QouteRepository {
     return qoutes;
   }
 
-    async getSingleQoute(id: number) {
-        const qoutes = await getData(); 
-        return  qoutes.filter(item => item.id == id); 
+  async getSingleQoute(id: number) {
+    const qoutes = await getData();
+    return qoutes.filter((item) => item.id == id);
   }
 
   async getRandomQoute() {
@@ -41,7 +41,18 @@ export class QouteRepository {
     return await postData(existedQoutes);
   }
 
-  async editQoute(id: number, qoute: { author: string; conent: string }) {}
+  async editQoute(id: number, qoute: { author: string; content: string }) {
+    let qoutes = await getData();
+    let item = qoutes.filter((item) => item.id === id)[0];
+    item = { ...item, ...qoute };
+    qoutes = qoutes.filter((item) => item.id !== id);
+    qoutes.push(item); 
+    return await postData(qoutes);
+  }
 
-  async deleteQoute(id: number) {}
+  async deleteQoute(id: number) {
+    let qoutes = await getData();
+    qoutes = qoutes.filter((item) => item.id !== id);
+    return await postData(qoutes);
+  }
 }
