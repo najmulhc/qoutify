@@ -1,38 +1,36 @@
+import { Injectable } from "@nestjs/common";
 import { quoteRepository } from "./quotes.repository";
 
+@Injectable() // now we can use it to inject as a dependency to another class
 export class quoteService {
-  qotueRepo: quoteRepository;
-
-  constructor() {
-    this.qotueRepo = new quoteRepository();
-  }
+  constructor(public quoteRepository: quoteRepository) {}
 
   async getAllquotes() {
-    return  this.qotueRepo.getAllquotes();
+    return this.quoteRepository.getAllquotes();
   }
 
   async postquote(author: string, content: string) {
-    return  this.qotueRepo.addNewquote({
+    return this.quoteRepository.addNewquote({
       author,
       content,
     });
   }
 
   async getRandomquote() {
-    return  this.qotueRepo.getRandomquote();
+    return this.quoteRepository.getRandomquote();
   }
   async getquoteById(id: number) {
-    return  this.qotueRepo.getSinglequote(id);
+    return this.quoteRepository.getSinglequote(id);
   }
 
   async updatequote(
     id: number,
     quote: { author: string; content: string; id: number },
   ) {
-    return  this.qotueRepo.editquote(id, quote);
+    return this.quoteRepository.editquote(id, quote);
   }
 
   async deletequote(id: number) {
-    return this.qotueRepo.deletequote(id);
+    return this.quoteRepository.deletequote(id);
   }
 }

@@ -1,3 +1,4 @@
+import { Injectable } from "@nestjs/common";
 import { readFileSync, writeFileSync } from "fs";
 
 const getData =  () => {
@@ -14,6 +15,7 @@ const postData =  (
   return res;
 };
 
+@Injectable()
 export class quoteRepository {
   async getAllquotes() {
     const quotes =  getData();

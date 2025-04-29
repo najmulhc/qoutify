@@ -14,20 +14,17 @@ import { quoteService } from "./quotes.service";
 
 @Controller("")
 export class quotesController {
-  service: quoteService;
-  constructor() {
-    this.service = new quoteService();
-  }
+  constructor(public service: quoteService) {}
   // get all the quotes
   @Get()
-   getAllquotes() {
-    return  this.service.getAllquotes();
+  getAllquotes() {
+    return this.service.getAllquotes();
   }
 
   // get quote by id
   @Get("/quote/:id")
-   getquoteById(@Param("id", ParseIntPipe) id: number) {
-    const quotes =  this.service.getquoteById(id);
+  getquoteById(@Param("id", ParseIntPipe) id: number) {
+    const quotes = this.service.getquoteById(id);
     if (!quotes[0]) {
       throw new NotFoundException("no quote found in the given id");
     } else {
@@ -42,21 +39,21 @@ export class quotesController {
   }
   // post a quote
   @Post()
-   addquote(@Body() body: CreatequoteDto) {
-    return  this.service.postquote(body.author, body.content);
+  addquote(@Body() body: CreatequoteDto) {
+    return this.service.postquote(body.author, body.content);
   }
 
   // update a certain quote
   @Patch("/quote/:id")
-   updatequoteById(
+  updatequoteById(
     @Param("id", ParseIntPipe) id: number,
     @Body() body: CreatequoteDto,
   ) {
-    const quotes =  this.service.getquoteById(id);
+    const quotes = this.service.getquoteById(id);
     if (!quotes[0]) {
       throw new NotFoundException("no quote found in the given id");
     } else {
-      return  this.service.updatequote(id, {
+      return this.service.updatequote(id, {
         id,
         ...body,
       });
@@ -65,12 +62,12 @@ export class quotesController {
 
   // delete quote by id
   @Delete("/quote/:id")
-   deletequote(@Param("id", ParseIntPipe) id: number) {
-    const quotes =  this.service.getquoteById(id);
+  deletequote(@Param("id", ParseIntPipe) id: number) {
+    const quotes = this.service.getquoteById(id);
     if (!quotes[0]) {
       throw new NotFoundException("no quote found in the given id");
     } else {
-      return  this.service.deletequote(id);
+      return this.service.deletequote(id);
     }
   }
 }
